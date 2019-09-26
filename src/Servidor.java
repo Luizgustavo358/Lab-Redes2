@@ -100,7 +100,7 @@ public class Servidor extends Thread
             JOptionPane.showMessageDialog(null, texts);
 
             server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
-            clientes = new ArrayList<BufferedWriter>();
+            clientes = new ArrayList<>();
 
             JOptionPane.showMessageDialog(null, "Servidor ativo na porta: " + txtPorta.getText());
 
