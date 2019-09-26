@@ -1,3 +1,5 @@
+package Cliente;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,12 +50,14 @@ public class Cliente extends JFrame implements ActionListener, KeyListener
         texto.setEditable(false);
         texto.setBackground(new Color(240,240,240));
         txtMsg       = new JTextField(20);
+
         lblHistorico = new JLabel("Histórico");
         lblMsg       = new JLabel("Mensagem");
         btnSend      = new JButton("Enviar");
         btnSend.setToolTipText("Enviar Mensagem");
         btnSair      = new JButton("Sair");
         btnSair.setToolTipText("Sair do Chat");
+
         btnSend.addActionListener(this);
         btnSair.addActionListener(this);
         btnSend.addKeyListener(this);
@@ -73,12 +77,19 @@ public class Cliente extends JFrame implements ActionListener, KeyListener
         setContentPane(pnlContent);
         setLocationRelativeTo(null);
         setResizable(false);
-        setSize(250,300);
+        setSize(350,350);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }// fim construtor
+
+    private String getNome()
+    {
+        String nome = JOptionPane.showInputDialog("Qual é o seu nome?");
+
+        return nome;
     }
 
-    /***
+    /**
      * Método usado para conectar no server socket, retorna IO Exception caso dê algum erro.
      * @throws IOException
      */
@@ -90,7 +101,7 @@ public class Cliente extends JFrame implements ActionListener, KeyListener
         bfw    = new BufferedWriter(ouw);
         bfw.write(txtNome.getText() + "\r\n");
         bfw.flush();
-    }
+    }// fim conectar()
 
     /***
      * Método usado para enviar mensagem para o server socket
@@ -106,11 +117,11 @@ public class Cliente extends JFrame implements ActionListener, KeyListener
         } else {
             bfw.write(msg + "\r\n");
             texto.append( txtNome.getText() + " diz -> " + txtMsg.getText() + "\r\n");
-        }
+        }// fim if
 
         bfw.flush();
         txtMsg.setText("");
-    }
+    }// fim enviarMensagem()
 
     /**
      * Método usado para receber mensagem do servidor
@@ -133,10 +144,10 @@ public class Cliente extends JFrame implements ActionListener, KeyListener
                     texto.append("Servidor caiu! \r\n");
                 } else {
                     texto.append(msg + "\r\n");
-                }
-            }
-        }
-    }
+                }// fim if
+            }// fim if
+        }// fim while
+    }// fim escutar()
 
     /***
      * Método usado quando o usuário clica em sair
@@ -149,22 +160,25 @@ public class Cliente extends JFrame implements ActionListener, KeyListener
         ouw.close();
         ou.close();
         socket.close();
-    }
+    }// fim sair()
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
         try {
             if(e.getActionCommand().equals(btnSend.getActionCommand()))
+            {
                 enviarMensagem(txtMsg.getText());
-            else
-                if(e.getActionCommand().equals(btnSair.getActionCommand()))
+            } else {
+                if (e.getActionCommand().equals(btnSair.getActionCommand())) {
                     sair();
+                }// fim if
+            }// fim if
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
-        }
-    }
+        }// fim try catch
+    }// fim actionPerformed()
 
     @Override
     public void keyPressed(KeyEvent e)
@@ -175,24 +189,26 @@ public class Cliente extends JFrame implements ActionListener, KeyListener
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
-            }
-        }
-    }
+            }// fim try catch
+        }// fim if
+    }// fim keyPressed()
 
     @Override
-    public void keyReleased(KeyEvent arg0) {
+    public void keyReleased(KeyEvent arg0)
+    {
         // TODO Auto-generated method stub
-    }
+    }// fim keyReleased()
 
     @Override
-    public void keyTyped(KeyEvent arg0) {
+    public void keyTyped(KeyEvent arg0)
+    {
         // TODO Auto-generated method stub
-    }
+    }// fim keyTyped()
 
     public static void main(String []args) throws IOException
     {
         Cliente app = new Cliente();
         app.conectar();
         app.escutar();
-    }
-}
+    }// fim main()
+}// fim class Cliente
