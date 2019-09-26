@@ -37,8 +37,8 @@ public class Servidor extends Thread
             bfr = new BufferedReader(inr);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
+        }// fim try catch
+    }// fim construtor
 
     /**
      * Metodo run
@@ -60,11 +60,11 @@ public class Servidor extends Thread
                 msg = bfr.readLine();
                 sendToAll(bfw, msg);
                 System.out.println(msg);
-            }
+            }// fim while
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
+        }// fim try catch
+    }// fim run()
 
     /***
      * Método usado para enviar mensagem para todos os clients
@@ -84,9 +84,9 @@ public class Servidor extends Thread
             {
                 bw.write(nome + " -> " + msg + "\r\n");
                 bw.flush();
-            }
-        }
-    }
+            }// fim if
+        }// fim for
+    }// fim sendToAll()
 
     public static void main(String[] args)
     {
@@ -113,9 +113,9 @@ public class Servidor extends Thread
                 System.out.println("Cliente conectado...");
                 Thread t = new Servidor(con);
                 t.start();
-            }
+            }// fim while
         } catch(Exception e) {
             e.printStackTrace();
-        }
-    }
-}
+        }// fim try catch
+    }// fim main()
+}// fim class Servidor
